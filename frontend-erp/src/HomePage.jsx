@@ -179,7 +179,7 @@ const HomePage = () => {
   const displayGallery = galleryImages.length > 0 ? galleryImages : [];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-yellow-200">
       {/* Enhanced Hero Section */}
       <section
         id="home"
@@ -257,14 +257,16 @@ const HomePage = () => {
             <div className="space-y-8 text-white">
               <div className="space-y-6">
                 {isAdmissionOpen && (
-                  <div className="inline-flex items-center bg-yellow-500 text-blue-900 px-6 py-3 rounded-full text-sm font-bold mb-4 animate-pulse">
+                  <div className="inline-flex items-center bg-yellow-600 text-white px-6 py-3 rounded-full text-sm font-bold mb-4 animate-pulse">
                     <Bell className="w-4 h-4 mr-2" />
                     Admission Open {admissionSession || "2025-26"}
                   </div>
                 )}
                 <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-                  <span className="text-white">Best School of India</span>
-                  <span className="block text-yellow-400 text-3xl lg:text-4xl mt-2">
+                  <span className="text-white">
+                    Best School of India
+                  </span>
+                  <span className="block text-yellow-500 text-3xl lg:text-4xl mt-2">
                     #1 Top Education School
                   </span>
                   <span className="block text-xl lg:text-2xl mt-4 text-blue-100">
@@ -284,7 +286,7 @@ const HomePage = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={() => scrollToSection("about")}
-                  className="group px-8 py-4 bg-yellow-500 text-blue-900 rounded-lg font-bold hover:bg-yellow-400 transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg"
+                  className="group px-8 py-4 bg-yellow-600 text-white rounded-lg font-bold hover:bg-yellow-500 transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg"
                 >
                   <span>Explore More</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -300,7 +302,7 @@ const HomePage = () => {
 
             <div className="relative">
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-2xl">
-                <div className="bg-white rounded-xl p-8 shadow-2xl">
+                <div className="bg-yellow-300 rounded-xl p-8 shadow-2xl">
                   <h3 className="text-2xl font-bold text-blue-900 mb-8 text-center">
                     School Excellence
                   </h3>
@@ -337,13 +339,13 @@ const HomePage = () => {
       </section>
 
       {/* Enhanced About Section */}
-      <section id="about" className="py-20 bg-white">
+      <section id="about" className="py-20 bg-yellow-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold text-gray-800 mb-6">
               About Our School
             </h2>
-            <div className="w-32 h-1 bg-yellow-500 mx-auto mb-4"></div>
+            <div className="w-32 h-1 bg-yellow-600 mx-auto mb-4"></div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Discover the legacy of excellence that has been shaping young
               minds for over 18 years
@@ -415,9 +417,9 @@ const HomePage = () => {
             </div>
 
             <div className="relative">
-              <div className="bg-blue-100 rounded-2xl p-8 transform rotate-3">
-                <div className="bg-white rounded-xl p-6 shadow-2xl transform -rotate-3">
-                  <div className="w-full h-80 bg-blue-100 rounded-lg flex items-center justify-center">
+              <div className="bg-yellow-400 rounded-2xl p-8 transform rotate-3">
+                <div className="bg-yellow-200 rounded-xl p-6 shadow-2xl transform -rotate-3">
+                  <div className="w-full h-80 bg-yellow-300 rounded-lg flex items-center justify-center">
                     <div className="text-center text-gray-500">
                       <div className="w-16 h-16 bg-blue-200 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg
@@ -443,7 +445,7 @@ const HomePage = () => {
               </div>
 
               {/* Stats overlay */}
-              <div className="absolute -bottom-8 -left-8 bg-white rounded-xl p-6 shadow-2xl border-l-4 border-yellow-500">
+              <div className="absolute -bottom-8 -left-8 bg-yellow-200 rounded-xl p-6 shadow-2xl border-l-4 border-blue-500">
                 <div className="text-3xl font-bold text-blue-900">18+</div>
                 <div className="text-sm text-gray-600">Years of Excellence</div>
               </div>
@@ -481,7 +483,7 @@ const HomePage = () => {
                   <div className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                     <Icon className="w-10 h-10" />
                   </div>
-                  <div className="text-5xl font-bold mb-3 text-yellow-300">
+                  <div className="text-5xl font-bold mb-3 text-yellow-500">
                     {stat.number}
                   </div>
                   <div className="text-lg opacity-90 font-medium">
@@ -495,13 +497,13 @@ const HomePage = () => {
       </section>
 
       {/* Enhanced Facilities Section */}
-      <section id="facilities" className="py-20 bg-gray-50">
+      <section id="facilities" className="py-20 bg-yellow-400">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold text-gray-800 mb-6">
               World-Class Facilities
             </h2>
-            <div className="w-32 h-1 bg-yellow-500 mx-auto mb-4"></div>
+            <div className="w-32 h-1 bg-yellow-600 mx-auto mb-4"></div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Modern infrastructure and cutting-edge facilities to support
               comprehensive learning
@@ -514,7 +516,7 @@ const HomePage = () => {
               return (
                 <div
                   key={index}
-                  className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 text-center hover:-translate-y-2 border-t-4 border-transparent hover:border-blue-500"
+                  className="group bg-yellow-200 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 text-center hover:-translate-y-2 border-t-4 border-transparent hover:border-blue-500"
                 >
                   <div className="w-20 h-20 bg-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:rotate-6">
                     <Icon className="w-10 h-10 text-white" />
@@ -533,13 +535,13 @@ const HomePage = () => {
       </section>
 
       {/* Enhanced Teachers Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-yellow-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold text-gray-800 mb-6">
               Meet Our Faculty
             </h2>
-            <div className="w-32 h-1 bg-yellow-500 mx-auto mb-4"></div>
+            <div className="w-32 h-1 bg-yellow-600 mx-auto mb-4"></div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Dedicated educators committed to nurturing every student's
               potential
@@ -560,7 +562,7 @@ const HomePage = () => {
             ].map((teacher, index) => (
               <div
                 key={index}
-                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden hover:-translate-y-2"
+                className="group bg-yellow-200 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden hover:-translate-y-2"
               >
                 <div className="relative overflow-hidden">
                   <img
@@ -599,13 +601,13 @@ const HomePage = () => {
       </section>
 
       {/* Enhanced Updates/Notices Section */}
-      <section className="py-20 bg-blue-50">
+      <section className="py-20 bg-yellow-400">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold text-gray-800 mb-6">
               Latest Updates & Notices
             </h2>
-            <div className="w-32 h-1 bg-yellow-500 mx-auto mb-4"></div>
+            <div className="w-32 h-1 bg-yellow-600 mx-auto mb-4"></div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Stay informed with our latest announcements and important updates
             </p>
@@ -616,10 +618,10 @@ const HomePage = () => {
               activeNotices.map((notice, index) => (
                 <div
                   key={index}
-                  className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-l-4 border-yellow-500"
+                  className="group bg-yellow-200 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-l-4 border-blue-500"
                 >
                   <div className="flex items-center justify-between mb-6">
-                    <span className="px-4 py-2 bg-yellow-500 text-white rounded-full text-sm font-bold uppercase tracking-wide">
+                    <span className="px-4 py-2 bg-blue-500 text-white rounded-full text-sm font-bold uppercase tracking-wide">
                       {notice.type}
                     </span>
                     <span className="text-sm text-gray-500 font-medium">
@@ -665,13 +667,13 @@ const HomePage = () => {
       </section>
 
       {/* Enhanced Photo Gallery Section */}
-      <section id="gallery" className="py-20 bg-white">
+      <section id="gallery" className="py-20 bg-yellow-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold text-gray-800 mb-6">
               Photo Gallery
             </h2>
-            <div className="w-32 h-1 bg-yellow-500 mx-auto mb-4"></div>
+            <div className="w-32 h-1 bg-yellow-600 mx-auto mb-4"></div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Capturing moments of learning, growth, and achievement at our
               school
@@ -750,13 +752,13 @@ const HomePage = () => {
       )}
 
       {/* Enhanced Testimonials Section */}
-      <section className="py-20 bg-blue-50">
+      <section className="py-20 bg-yellow-400">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold text-gray-800 mb-6">
               Success Stories
             </h2>
-            <div className="w-32 h-1 bg-yellow-500 mx-auto mb-4"></div>
+            <div className="w-32 h-1 bg-yellow-600 mx-auto mb-4"></div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Hear from our accomplished alumni who started their journey of
               success here
@@ -767,7 +769,7 @@ const HomePage = () => {
             {schoolData.testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 relative overflow-hidden"
+                className="group bg-yellow-200 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 relative overflow-hidden"
               >
                 <div className="absolute top-4 right-4 text-yellow-400 opacity-20 group-hover:opacity-40 transition-opacity">
                   <svg
@@ -796,7 +798,7 @@ const HomePage = () => {
                   <img
                     src={testimonial.image}
                     alt={testimonial.name}
-                    className="w-16 h-16 rounded-full object-cover border-4 border-blue-100"
+                    className="w-16 h-16 rounded-full object-cover border-4 border-yellow-500"
                   />
                   <div>
                     <h4 className="font-bold text-gray-800 text-lg group-hover:text-blue-600 transition-colors">
@@ -830,7 +832,7 @@ const HomePage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold mb-6">Get In Touch</h2>
-            <div className="w-32 h-1 bg-yellow-500 mx-auto mb-4"></div>
+            <div className="w-32 h-1 bg-yellow-600 mx-auto mb-4"></div>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Ready to join our school family? Contact us for admissions and
               more information
@@ -863,7 +865,7 @@ const HomePage = () => {
                       key={index}
                       className="flex items-start space-x-4 p-4 bg-gray-800 rounded-xl hover:bg-gray-750 transition-colors"
                     >
-                      <div className="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <div className="w-12 h-12 bg-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
                         <item.icon className="w-6 h-6 text-white" />
                       </div>
                       <div>
@@ -892,7 +894,7 @@ const HomePage = () => {
                   ].map((social, index) => (
                     <button
                       key={index}
-                      className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-yellow-500 hover:text-white transition-all duration-300 hover:scale-110 hover:rotate-6"
+                      className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-yellow-600 hover:text-white transition-all duration-300 hover:scale-110 hover:rotate-6"
                       title={social.name}
                     >
                       <social.icon className="w-6 h-6" />
@@ -932,7 +934,7 @@ const HomePage = () => {
                 ></textarea>
                 <button
                   type="submit"
-                  className="w-full py-4 bg-yellow-500 text-white rounded-xl font-bold hover:bg-yellow-400 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+                  className="w-full py-4 bg-yellow-600 text-white rounded-xl font-bold hover:bg-yellow-500 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
                 >
                   <span>Send Message</span>
                   <ArrowRight className="w-5 h-5" />
@@ -1017,7 +1019,7 @@ const HomePage = () => {
                     key={facility}
                     className="flex items-center space-x-2 hover:text-white transition-colors"
                   >
-                    <div className="w-1 h-1 bg-yellow-500 rounded-full"></div>
+                    <div className="w-1 h-1 bg-yellow-600 rounded-full"></div>
                     <span>{facility}</span>
                   </li>
                 ))}

@@ -78,36 +78,41 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md shadow-lg z-50">
+    <nav className="fixed top-0 w-full bg-yellow-200/95 backdrop-blur-md shadow-lg z-50 border-b-2 border-yellow-400">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
               <BookOpen className="w-7 h-7 text-white" />
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-800">
+            <div className="hidden sm:block">
+              <h1 className="text-xl lg:text-2xl font-bold text-gray-800 leading-tight">
                 JAI MODERN SR. SEC. SCHOOL DULHERA
               </h1>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs lg:text-sm text-gray-600">
                 Dulhera, (Jhajjar), Haryana
               </p>
+            </div>
+            <div className="block sm:hidden">
+              <h1 className="text-lg font-bold text-gray-800">JAI MODERN</h1>
+              <p className="text-xs text-gray-600">SCHOOL DULHERA</p>
             </div>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex space-x-8">
+          <div className="hidden lg:flex space-x-1">
             {navItems.map((item) => {
               const Icon = item.icon;
+              const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex items-center space-x-1 text-sm font-medium transition-all duration-300 hover:text-blue-600 ${
-                    location.pathname === item.path
-                      ? "text-blue-600"
-                      : "text-gray-700"
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                    isActive
+                      ? "bg-blue-600 text-white shadow-lg"
+                      : "text-gray-700 hover:bg-yellow-400 hover:text-blue-600"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -121,7 +126,7 @@ const Navigation = () => {
           <div className="lg:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-blue-600 transition-colors duration-200"
+              className="p-2 rounded-lg text-gray-700 hover:text-white hover:bg-blue-600 transition-all duration-200 shadow-md hover:shadow-lg"
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -134,26 +139,42 @@ const Navigation = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="lg:hidden bg-white border-t border-gray-200">
-            <div className="px-2 pt-2 pb-3 space-y-1">
+          <div className="lg:hidden bg-yellow-300 border-t-2 border-yellow-500 rounded-b-xl shadow-lg">
+            <div className="px-4 pt-4 pb-6 space-y-2">
               {navItems.map((item) => {
                 const Icon = item.icon;
+                const isActive = location.pathname === item.path;
                 return (
                   <Link
                     key={item.path}
                     to={item.path}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`flex items-center space-x-2 px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 ${
-                      location.pathname === item.path
-                        ? "bg-blue-50 text-blue-600"
-                        : "text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                    className={`flex items-center space-x-3 px-4 py-3 text-base font-medium rounded-xl transition-all duration-200 hover:scale-102 ${
+                      isActive
+                        ? "bg-blue-600 text-white shadow-lg"
+                        : "text-gray-700 hover:bg-yellow-400 hover:text-blue-600 hover:shadow-md"
                     }`}
                   >
                     <Icon className="w-5 h-5" />
                     <span>{item.label}</span>
+                    {isActive && (
+                      <div className="ml-auto w-2 h-2 bg-yellow-600 rounded-full"></div>
+                    )}
                   </Link>
                 );
               })}
+              
+              {/* Mobile Contact Info */}
+              <div className="mt-6 pt-4 border-t-2 border-yellow-500">
+                <div className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-600">
+                  <Phone className="w-4 h-4 text-blue-600" />
+                  <span>9050102999</span>
+                </div>
+                <div className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-600">
+                  <Mail className="w-4 h-4 text-blue-600" />
+                  <span>info@jaimodernschool.edu</span>
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -173,7 +194,7 @@ const App = () => {
   return (
     <AdminProvider>
       <Router>
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-yellow-200">
           <Navigation />
           <div className="pt-20">
             <Routes>
