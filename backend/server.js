@@ -6,7 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
-require("dotenv").config();
+require("dotenv").config({ path: "./config.env" });
 
 const app = express();
 const PORT = process.env.PORT || 5001;

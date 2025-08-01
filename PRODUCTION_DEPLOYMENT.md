@@ -13,7 +13,7 @@ This guide provides step-by-step instructions for deploying the School ERP syste
 ## Environment Setup
 
 ### 1. Backend Environment Variables
-Create a `.env` file in the `backend` directory with the following variables:
+Create a `config.env` file in the `backend` directory with the following variables:
 
 ```env
 # Production Environment Configuration
@@ -34,6 +34,8 @@ CORS_ORIGIN=https://your-domain.com
 BCRYPT_ROUNDS=12
 JWT_EXPIRES_IN=24h
 ```
+
+**Note**: You can copy from `env.example` and modify the values for your production environment.
 
 ### 2. Frontend Environment Variables
 Create a `.env.production` file in the `frontend-erp` directory:
