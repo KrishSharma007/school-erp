@@ -19,8 +19,10 @@ const AboutUs = () => {
       icon: Users,
       content: (
         <div className="space-y-6">
-          <div className="bg-yellow-100 rounded-xl p-4 sm:p-6">
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">Our Story</h3>
+          <div className="bg-yellow-200 rounded-xl p-4 sm:p-6 border border-yellow-300">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
+              Our Story
+            </h3>
             <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
               JAI MODERN SR. SEC. SCHOOL DULHERA was established in 2006 with a
               vision to provide modern, quality education that nurtures
@@ -31,7 +33,7 @@ const AboutUs = () => {
           </div>
 
           <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg">
+            <div className="bg-yellow-100 rounded-xl p-4 sm:p-6 shadow-lg border border-yellow-200">
               <h4 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2 sm:mb-3">
                 Our Approach
               </h4>
@@ -42,25 +44,25 @@ const AboutUs = () => {
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg">
+            <div className="bg-yellow-50 rounded-xl p-4 sm:p-6 shadow-lg border border-yellow-200">
               <h4 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2 sm:mb-3">
                 Our Values
               </h4>
               <ul className="space-y-2 text-sm sm:text-base text-gray-600">
                 <li className="flex items-center">
-                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600 mr-2 flex-shrink-0" />
+                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-amber-600 mr-2 flex-shrink-0" />
                   Excellence in everything we do
                 </li>
                 <li className="flex items-center">
-                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600 mr-2 flex-shrink-0" />
+                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-amber-600 mr-2 flex-shrink-0" />
                   Integrity and moral values
                 </li>
                 <li className="flex items-center">
-                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600 mr-2 flex-shrink-0" />
+                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-amber-600 mr-2 flex-shrink-0" />
                   Innovation and creativity
                 </li>
                 <li className="flex items-center">
-                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600 mr-2 flex-shrink-0" />
+                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-amber-600 mr-2 flex-shrink-0" />
                   Respect for diversity
                 </li>
               </ul>
@@ -75,8 +77,10 @@ const AboutUs = () => {
       icon: Target,
       content: (
         <div className="space-y-6 sm:space-y-8">
-          <div className="bg-blue-600 rounded-xl p-4 sm:p-6 lg:p-8 text-white">
-            <h3 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Our Vision</h3>
+          <div className="bg-gradient-to-r from-amber-500 to-yellow-500 rounded-xl p-4 sm:p-6 lg:p-8 text-white shadow-lg">
+            <h3 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">
+              Our Vision
+            </h3>
             <p className="text-lg sm:text-xl leading-relaxed">
               To be a leading educational institution that empowers students to
               become confident, creative, and responsible global citizens who
@@ -84,8 +88,10 @@ const AboutUs = () => {
             </p>
           </div>
 
-          <div className="bg-yellow-500 rounded-xl p-4 sm:p-6 lg:p-8 text-white">
-            <h3 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Our Mission</h3>
+          <div className="bg-gradient-to-r from-yellow-400 to-amber-400 rounded-xl p-4 sm:p-6 lg:p-8 text-white shadow-lg">
+            <h3 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">
+              Our Mission
+            </h3>
             <p className="text-lg sm:text-xl leading-relaxed">
               To provide modern, quality education that nurtures creativity,
               critical thinking, and character development, preparing students
@@ -95,8 +101,8 @@ const AboutUs = () => {
           </div>
 
           <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg text-center">
-              <Target className="w-10 h-10 sm:w-12 sm:h-12 text-blue-600 mx-auto mb-3 sm:mb-4" />
+            <div className="bg-yellow-50 rounded-xl p-4 sm:p-6 shadow-lg text-center border border-yellow-200">
+              <Target className="w-10 h-10 sm:w-12 sm:h-12 text-amber-600 mx-auto mb-3 sm:mb-4" />
               <h4 className="text-base sm:text-lg font-semibold text-gray-800 mb-2">
                 Academic Excellence
               </h4>
@@ -105,8 +111,8 @@ const AboutUs = () => {
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg text-center">
-              <Users className="w-10 h-10 sm:w-12 sm:h-12 text-yellow-600 mx-auto mb-3 sm:mb-4" />
+            <div className="bg-yellow-100 rounded-xl p-4 sm:p-6 shadow-lg text-center border border-yellow-200">
+              <Users className="w-10 h-10 sm:w-12 sm:h-12 text-amber-600 mx-auto mb-3 sm:mb-4" />
               <h4 className="text-base sm:text-lg font-semibold text-gray-800 mb-2">
                 Character Building
               </h4>
@@ -115,8 +121,8 @@ const AboutUs = () => {
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg text-center md:col-span-2 lg:col-span-1">
-              <Award className="w-10 h-10 sm:w-12 sm:h-12 text-blue-600 mx-auto mb-3 sm:mb-4" />
+            <div className="bg-yellow-50 rounded-xl p-4 sm:p-6 shadow-lg text-center md:col-span-2 lg:col-span-1 border border-yellow-200">
+              <Award className="w-10 h-10 sm:w-12 sm:h-12 text-amber-600 mx-auto mb-3 sm:mb-4" />
               <h4 className="text-base sm:text-lg font-semibold text-gray-800 mb-2">
                 Leadership Skills
               </h4>
@@ -134,9 +140,9 @@ const AboutUs = () => {
       icon: Quote,
       content: (
         <div className="space-y-6 sm:space-y-8">
-          <div className="bg-blue-100 rounded-xl p-4 sm:p-6 lg:p-8">
+          <div className="bg-yellow-100 rounded-xl p-4 sm:p-6 lg:p-8 border border-yellow-200">
             <div className="flex flex-col sm:flex-row items-center sm:items-start mb-4 sm:mb-6">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-600 rounded-full flex items-center justify-center mb-4 sm:mb-0 sm:mr-6 flex-shrink-0">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-full flex items-center justify-center mb-4 sm:mb-0 sm:mr-6 flex-shrink-0 shadow-lg">
                 <Quote className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
               </div>
               <div className="text-center sm:text-left">
@@ -187,7 +193,7 @@ const AboutUs = () => {
           </div>
 
           <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg">
+            <div className="bg-yellow-50 rounded-xl p-4 sm:p-6 shadow-lg border border-yellow-200">
               <h4 className="text-base sm:text-lg font-semibold text-gray-800 mb-2 sm:mb-3">
                 Experience
               </h4>
@@ -197,7 +203,7 @@ const AboutUs = () => {
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg">
+            <div className="bg-yellow-100 rounded-xl p-4 sm:p-6 shadow-lg border border-yellow-200">
               <h4 className="text-base sm:text-lg font-semibold text-gray-800 mb-2 sm:mb-3">
                 Philosophy
               </h4>
@@ -216,9 +222,9 @@ const AboutUs = () => {
       icon: Award,
       content: (
         <div className="space-y-6 sm:space-y-8">
-          <div className="bg-yellow-100 rounded-xl p-4 sm:p-6 lg:p-8">
+          <div className="bg-yellow-100 rounded-xl p-4 sm:p-6 lg:p-8 border border-yellow-200">
             <div className="flex flex-col sm:flex-row items-center sm:items-start mb-4 sm:mb-6">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-yellow-500 rounded-full flex items-center justify-center mb-4 sm:mb-0 sm:mr-6 flex-shrink-0">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-yellow-500 to-amber-500 rounded-full flex items-center justify-center mb-4 sm:mb-0 sm:mr-6 flex-shrink-0 shadow-lg">
                 <Award className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
               </div>
               <div className="text-center sm:text-left">
@@ -273,8 +279,8 @@ const AboutUs = () => {
           </div>
 
           <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg text-center">
-              <BookOpen className="w-10 h-10 sm:w-12 sm:h-12 text-blue-600 mx-auto mb-3 sm:mb-4" />
+            <div className="bg-yellow-50 rounded-xl p-4 sm:p-6 shadow-lg text-center border border-yellow-200">
+              <BookOpen className="w-10 h-10 sm:w-12 sm:h-12 text-amber-600 mx-auto mb-3 sm:mb-4" />
               <h4 className="text-base sm:text-lg font-semibold text-gray-800 mb-2">
                 Innovation
               </h4>
@@ -284,8 +290,8 @@ const AboutUs = () => {
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg text-center">
-              <Target className="w-10 h-10 sm:w-12 sm:h-12 text-yellow-600 mx-auto mb-3 sm:mb-4" />
+            <div className="bg-yellow-100 rounded-xl p-4 sm:p-6 shadow-lg text-center border border-yellow-200">
+              <Target className="w-10 h-10 sm:w-12 sm:h-12 text-amber-600 mx-auto mb-3 sm:mb-4" />
               <h4 className="text-base sm:text-lg font-semibold text-gray-800 mb-2">
                 Excellence
               </h4>
@@ -294,8 +300,8 @@ const AboutUs = () => {
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg text-center md:col-span-2 lg:col-span-1">
-              <Users className="w-10 h-10 sm:w-12 sm:h-12 text-blue-600 mx-auto mb-3 sm:mb-4" />
+            <div className="bg-yellow-50 rounded-xl p-4 sm:p-6 shadow-lg text-center md:col-span-2 lg:col-span-1 border border-yellow-200">
+              <Users className="w-10 h-10 sm:w-12 sm:h-12 text-amber-600 mx-auto mb-3 sm:mb-4" />
               <h4 className="text-base sm:text-lg font-semibold text-gray-800 mb-2">
                 Community
               </h4>
@@ -310,20 +316,20 @@ const AboutUs = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-12 sm:pt-16">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-amber-50 pt-12 sm:pt-16">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-12">
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 px-4">
             About JAI MODERN SR. SEC. SCHOOL DULHERA
           </h1>
-          <div className="w-16 sm:w-24 h-1 bg-blue-600 mx-auto"></div>
+          <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-amber-500 to-yellow-500 mx-auto rounded-full"></div>
         </div>
 
         <div className="grid lg:grid-cols-4 gap-4 lg:gap-8">
           {/* Quick Links Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-lg p-4 lg:p-6 lg:sticky lg:top-24">
+            <div className="bg-yellow-100 rounded-xl shadow-lg p-4 lg:p-6 lg:sticky lg:top-24 border border-yellow-200">
               <h3 className="text-lg lg:text-xl font-semibold text-gray-800 mb-4 lg:mb-6">
                 Quick Links
               </h3>
@@ -336,12 +342,14 @@ const AboutUs = () => {
                       onClick={() => setActiveSection(section.id)}
                       className={`w-full flex items-center justify-center lg:justify-start space-x-2 lg:space-x-3 p-2 lg:p-3 rounded-lg transition-all duration-300 text-sm lg:text-base ${
                         activeSection === section.id
-                          ? "bg-blue-600 text-white shadow-lg"
-                          : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                          ? "bg-gradient-to-r from-amber-500 to-yellow-500 text-white shadow-lg"
+                          : "bg-yellow-50 text-gray-700 hover:bg-yellow-200 border border-yellow-200"
                       }`}
                     >
                       <Icon className="w-4 h-4 lg:w-5 lg:h-5" />
-                      <span className="font-medium hidden sm:inline lg:inline">{section.title}</span>
+                      <span className="font-medium hidden sm:inline lg:inline">
+                        {section.title}
+                      </span>
                       {activeSection === section.id && (
                         <ArrowRight className="w-3 h-3 lg:w-4 lg:h-4 ml-auto hidden lg:inline" />
                       )}
@@ -354,7 +362,7 @@ const AboutUs = () => {
 
           {/* Main Content */}
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 lg:p-8">
+            <div className="bg-yellow-50 rounded-xl shadow-lg p-4 sm:p-6 lg:p-8 border border-yellow-200">
               {
                 sections.find((section) => section.id === activeSection)
                   ?.content
