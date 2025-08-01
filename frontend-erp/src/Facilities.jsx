@@ -144,9 +144,9 @@ const Facilities = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-blue-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 to-purple-600 text-white py-20">
+      <section className="bg-blue-600 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-5xl font-bold mb-6">World-Class Facilities</h1>
@@ -161,13 +161,13 @@ const Facilities = () => {
       </section>
 
       {/* Main Facilities */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-blue-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
               Our Facilities
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto"></div>
+            <div className="w-24 h-1 bg-yellow-500 mx-auto"></div>
           </div>
 
           <div className="space-y-16">
@@ -184,7 +184,7 @@ const Facilities = () => {
                   <div className={`${index % 2 === 1 ? "lg:col-start-2" : ""}`}>
                     <div className="space-y-6">
                       <div className="flex items-center space-x-4">
-                        <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                        <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
                           <Icon className="w-8 h-8 text-white" />
                         </div>
                         <div>
@@ -213,16 +213,13 @@ const Facilities = () => {
                         ))}
                       </div>
 
-                      <button className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
-                        <span>Learn More</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </button>
+
                     </div>
                   </div>
 
                   <div className={`${index % 2 === 1 ? "lg:col-start-1" : ""}`}>
                     <div className="relative group">
-                      <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl p-6">
+                      <div className="bg-white rounded-2xl p-6 shadow-lg">
                         {facility.image ? (
                           <img
                             src={facility.image}
@@ -230,7 +227,7 @@ const Facilities = () => {
                             className="w-full h-80 object-cover rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-300"
                           />
                         ) : (
-                          <div className="w-full h-80 bg-gradient-to-br from-blue-200 to-purple-200 rounded-xl shadow-lg flex items-center justify-center">
+                          <div className="w-full h-80 bg-gray-50 rounded-xl shadow-lg flex items-center justify-center">
                             <div className="text-center text-gray-500">
                               <div className="w-16 h-16 bg-blue-300 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <facility.icon className="w-8 h-8 text-blue-600" />
@@ -252,13 +249,13 @@ const Facilities = () => {
       </section>
 
       {/* Additional Facilities */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-yellow-400">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
               Additional Facilities
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto"></div>
+            <div className="w-24 h-1 bg-gradient-to-r from-yellow-600 to-amber-600 mx-auto"></div>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -267,7 +264,7 @@ const Facilities = () => {
               return (
                 <div
                   key={index}
-                  className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 text-center"
+                  className="bg-yellow-200 rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 text-center border border-yellow-300"
                 >
                   <Icon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-gray-800 mb-3">
@@ -282,7 +279,7 @@ const Facilities = () => {
       </section>
 
       {/* Facility Statistics */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      <section className="py-20 bg-blue-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">
@@ -314,13 +311,13 @@ const Facilities = () => {
       </section>
 
       {/* Safety & Security */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-yellow-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
               Safety & Security
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto"></div>
+            <div className="w-24 h-1 bg-gradient-to-r from-yellow-600 to-amber-600 mx-auto"></div>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -365,7 +362,7 @@ const Facilities = () => {
               return (
                 <div
                   key={index}
-                  className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-8 hover:shadow-lg transition-shadow duration-300"
+                  className="bg-yellow-200 rounded-xl p-8 hover:shadow-lg transition-shadow duration-300 border border-yellow-300"
                 >
                   <Icon className="w-12 h-12 text-blue-600 mb-6" />
                   <h3 className="text-xl font-semibold text-gray-800 mb-3">

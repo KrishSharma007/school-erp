@@ -2,8 +2,9 @@
 const express = require("express");
 const router = express.Router();
 const AdmissionSettings = require("../models/AdmissionSettings");
+const auth = require("../middleware/auth");
 
-// Get admission settings
+// Get admission settings (public route)
 router.get("/", async (req, res) => {
   try {
     let settings = await AdmissionSettings.findOne();
@@ -21,8 +22,8 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Update admission settings
-router.patch("/", async (req, res) => {
+// Update admission settings (protected route)
+router.patch("/", auth, async (req, res) => {
   try {
     const { isAdmissionOpen, admissionSession } = req.body;
     let settings = await AdmissionSettings.findOne();

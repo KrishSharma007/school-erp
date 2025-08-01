@@ -87,9 +87,9 @@ const Academics = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-blue-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 to-purple-600 text-white py-20">
+      <section className="bg-blue-600 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-5xl font-bold mb-6">Academic Excellence</h1>
@@ -103,44 +103,14 @@ const Academics = () => {
         </div>
       </section>
 
-      {/* Curriculum Highlights */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Our Curriculum Highlights
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto"></div>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {curriculumHighlights.map((highlight, index) => {
-              const Icon = highlight.icon;
-              return (
-                <div
-                  key={index}
-                  className="text-center p-6 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl hover:shadow-lg transition-shadow duration-300"
-                >
-                  <Icon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                    {highlight.title}
-                  </h3>
-                  <p className="text-gray-600">{highlight.description}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* Academic Programs */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-blue-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
               Academic Programs
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto"></div>
+            <div className="w-24 h-1 bg-yellow-500 mx-auto"></div>
           </div>
 
           <div className="space-y-16">
@@ -149,7 +119,6 @@ const Academics = () => {
               return (
                 <div
                   key={program.id}
-                  id={program.id}
                   className={`grid lg:grid-cols-2 gap-12 items-center ${
                     index % 2 === 1 ? "lg:grid-flow-col-dense" : ""
                   }`}
@@ -157,7 +126,7 @@ const Academics = () => {
                   <div className={`${index % 2 === 1 ? "lg:col-start-2" : ""}`}>
                     <div className="space-y-6">
                       <div className="flex items-center space-x-4">
-                        <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                        <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
                           <Icon className="w-8 h-8 text-white" />
                         </div>
                         <div>
@@ -174,42 +143,39 @@ const Academics = () => {
                         {program.description}
                       </p>
 
-                      <div className="space-y-3">
+                      <div className="grid md:grid-cols-2 gap-4">
                         {program.features.map((feature, fIndex) => (
                           <div
                             key={fIndex}
                             className="flex items-center space-x-3"
                           >
-                            <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                            <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
                             <span className="text-gray-700">{feature}</span>
                           </div>
                         ))}
                       </div>
 
-                      <button className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
-                        <span>Learn More</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </button>
+
                     </div>
                   </div>
 
                   <div className={`${index % 2 === 1 ? "lg:col-start-1" : ""}`}>
-                    <div className="relative">
-                      <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl p-6">
+                    <div className="relative group">
+                      <div className="bg-yellow-200 rounded-2xl p-6 border border-yellow-300">
                         {program.image ? (
                           <img
                             src={program.image}
                             alt={program.title}
-                            className="w-full h-80 object-cover rounded-xl shadow-lg"
+                            className="w-full h-80 object-cover rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-300"
                           />
                         ) : (
-                          <div className="w-full h-80 bg-gradient-to-br from-blue-200 to-purple-200 rounded-xl shadow-lg flex items-center justify-center">
+                          <div className="w-full h-80 bg-yellow-100 rounded-xl shadow-lg flex items-center justify-center border border-yellow-300">
                             <div className="text-center text-gray-500">
                               <div className="w-16 h-16 bg-blue-300 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <program.icon className="w-8 h-8 text-blue-600" />
                               </div>
                               <p className="text-sm">
-                                Upload academic images through admin panel
+                                Upload program images through admin panel
                               </p>
                             </div>
                           </div>
@@ -224,13 +190,45 @@ const Academics = () => {
         </div>
       </section>
 
-      {/* Academic Excellence Stats */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      {/* Curriculum Highlights */}
+      <section className="py-20 bg-yellow-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Academic Excellence</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">
+              Curriculum Highlights
+            </h2>
+            <div className="w-24 h-1 bg-yellow-500 mx-auto"></div>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {curriculumHighlights.map((highlight, index) => {
+              const Icon = highlight.icon;
+              return (
+                <div
+                  key={index}
+                  className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 text-center"
+                >
+                  <Icon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                    {highlight.title}
+                  </h3>
+                  <p className="text-gray-600">{highlight.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Academic Statistics */}
+      <section className="py-20 bg-blue-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">
+              Academic Achievements
+            </h2>
             <p className="text-xl opacity-90">
-              Our commitment to quality education
+              Excellence in numbers
             </p>
           </div>
 
@@ -238,12 +236,8 @@ const Academics = () => {
             {[
               { number: "95%", label: "Pass Rate", icon: Award },
               { number: "85%", label: "First Division", icon: Star },
-              {
-                number: "100%",
-                label: "College Placement",
-                icon: GraduationCap,
-              },
-              { number: "50+", label: "Awards Won", icon: BookOpen },
+              { number: "50+", label: "Scholarships", icon: GraduationCap },
+              { number: "100%", label: "College Placement", icon: Users },
             ].map((stat, index) => {
               const Icon = stat.icon;
               return (
@@ -258,71 +252,27 @@ const Academics = () => {
         </div>
       </section>
 
-      {/* Teaching Methodology */}
-      <section className="py-20 bg-white">
+      {/* Call to Action */}
+      <section className="py-20 bg-blue-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Our Teaching Methodology
+          <div className="text-center">
+            <h2 className="text-4xl font-bold text-gray-800 mb-6">
+              Join Our Academic Excellence
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto"></div>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Interactive Learning",
-                description:
-                  "Engaging students through hands-on activities and real-world applications",
-                icon: Users,
-              },
-              {
-                title: "Technology Integration",
-                description:
-                  "Using modern technology to enhance learning experiences",
-                icon: Target,
-              },
-              {
-                title: "Individual Attention",
-                description:
-                  "Personalized learning plans tailored to each student's needs",
-                icon: Star,
-              },
-              {
-                title: "Project-Based Learning",
-                description:
-                  "Learning through practical projects and real-world problem solving",
-                icon: BookOpen,
-              },
-              {
-                title: "Continuous Assessment",
-                description:
-                  "Regular evaluation and feedback to track student progress",
-                icon: Award,
-              },
-              {
-                title: "Career Guidance",
-                description:
-                  "Early career counseling and skill development programs",
-                icon: GraduationCap,
-              },
-            ].map((method, index) => {
-              const Icon = method.icon;
-              return (
-                <div
-                  key={index}
-                  className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-8 hover:shadow-lg transition-shadow duration-300"
-                >
-                  <Icon className="w-12 h-12 text-blue-600 mb-6" />
-                  <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                    {method.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {method.description}
-                  </p>
-                </div>
-              );
-            })}
+            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+              Discover how our comprehensive academic programs can shape your
+              child's future and prepare them for success in higher education
+              and beyond.
+            </p>
+                         <button 
+               onClick={() => {
+                 window.location.href = '/contact';
+               }}
+               className="group px-8 py-4 bg-yellow-500 text-white rounded-lg font-bold hover:bg-yellow-400 transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg mx-auto"
+             >
+              <span>Apply Now</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
           </div>
         </div>
       </section>

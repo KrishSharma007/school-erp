@@ -24,9 +24,9 @@ const Gallery = () => {
   const generalVideos = videos.filter(video => video.category === "general");
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-blue-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 to-purple-600 text-white py-20">
+      <section className="bg-blue-600 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-5xl font-bold mb-6">Photo Gallery</h1>
@@ -40,7 +40,7 @@ const Gallery = () => {
       </section>
 
       {/* Section Filter */}
-      <section className="py-12 bg-white">
+      <section className="py-12 bg-blue-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4">
             {sections.map((section) => {
@@ -51,8 +51,8 @@ const Gallery = () => {
                   onClick={() => setActiveSection(section.id)}
                   className={`flex items-center space-x-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
                     activeSection === section.id
-                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      ? "bg-yellow-500 text-white shadow-lg"
+                      : "bg-white text-gray-700 hover:bg-yellow-50 shadow-sm"
                   }`}
                 >
                   <Icon className="w-5 h-5" />
@@ -65,7 +65,7 @@ const Gallery = () => {
       </section>
 
       {/* Content Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-yellow-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {activeSection === "images" && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -162,10 +162,8 @@ const Gallery = () => {
         </div>
       </section>
 
-
-
       {/* Gallery Stats */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      <section className="py-20 bg-blue-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Gallery Highlights</h2>
@@ -195,13 +193,13 @@ const Gallery = () => {
       </section>
 
       {/* Recent Events */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-blue-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
               Recent Events
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto"></div>
+            <div className="w-24 h-1 bg-yellow-500 mx-auto"></div>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

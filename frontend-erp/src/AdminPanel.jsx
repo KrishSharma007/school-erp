@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAdmin } from "./hooks/useAdmin";
 import {
   Upload,
@@ -17,9 +18,11 @@ import {
   Award,
   Building,
   Video,
+  MessageCircle,
 } from "lucide-react";
 
 const AdminPanel = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("gallery");
   const [isUploading, setIsUploading] = useState(false);
   const [showAddNotice, setShowAddNotice] = useState(false);
@@ -28,6 +31,8 @@ const AdminPanel = () => {
   const [showImageUploadForm, setShowImageUploadForm] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadType, setUploadType] = useState("gallery");
+  const [messages, setMessages] = useState([]);
+  const [messageStats, setMessageStats] = useState({ total: 0, unread: 0, read: 0, replied: 0 });
 
   const {
     galleryImages,
@@ -53,18 +58,20 @@ const AdminPanel = () => {
     toggleNoticeActive,
   } = useAdmin();
 
+  // Fetch messages when messages tab is active
+  useEffect(() => {
+    if (activeTab === "messages") {
+      fetchMessages();
+      fetchMessageStats();
+    }
+  }, [activeTab]);
+
   // Debug info
   useEffect(() => {
     setDebugInfo(
-      `Gallery: ${galleryImages.length}, Slideshow: ${slideshowImages.length}, Notices: ${notices.length}`
+      `Gallery: ${galleryImages.length}, Slideshow: ${slideshowImages.length}, Notices: ${notices.length}, Messages: ${messages.length}`
     );
-    console.log("AdminPanel - Current state:", {
-      galleryImages,
-      slideshowImages,
-      notices,
-      loading,
-    });
-  }, [galleryImages, slideshowImages, notices, loading]);
+  }, [galleryImages, slideshowImages, notices, messages, loading]);
 
   const handleFileSelect = (event, type) => {
     const file = event.target.files[0];
@@ -88,10 +95,7 @@ const AdminPanel = () => {
         description: videoData.description,
       };
 
-      console.log("About to add video to database:", finalVideoData);
       await addVideo(finalVideoData);
-      console.log("Video upload successful, closing dialog");
-
       setShowImageUploadForm(false);
       setSelectedFile(null);
       setUploadType("gallery");
@@ -116,7 +120,6 @@ const AdminPanel = () => {
         description: imageData.description,
       };
 
-      console.log("About to add image to database:", finalImageData);
       if (uploadType === "slideshow") {
         await addSlideshowImage({
           ...finalImageData,
@@ -127,7 +130,6 @@ const AdminPanel = () => {
         await addGalleryImage(finalImageData);
       }
 
-      console.log("Image upload successful, closing dialog");
       setShowImageUploadForm(false);
       setSelectedFile(null);
       setUploadType("gallery");
@@ -159,7 +161,6 @@ const AdminPanel = () => {
       date: new Date().toISOString().split("T")[0],
       active: true,
     };
-    console.log("Adding notice with data:", newNotice);
     addNotice(newNotice);
     setShowAddNotice(false);
     setEditingNotice(null);
@@ -170,21 +171,108 @@ const AdminPanel = () => {
     setEditingNotice(null);
   };
 
+  const fetchMessages = async () => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch('http://localhost:5001/api/messages/admin', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setMessages(data);
+      } else {
+        console.error('Failed to fetch messages');
+      }
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
+  };
+
+  const fetchMessageStats = async () => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch('http://localhost:5001/api/messages/admin/stats', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setMessageStats(data);
+      } else {
+        console.error('Failed to fetch message stats');
+      }
+    } catch (error) {
+      console.error('Error fetching message stats:', error);
+    }
+  };
+
+  const updateMessageStatus = async (messageId, status) => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch(`http://localhost:5001/api/messages/${messageId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status }),
+      });
+      
+      if (response.ok) {
+        const updatedMessage = await response.json();
+        setMessages(prev => prev.map(msg => 
+          msg._id === messageId ? updatedMessage : msg
+        ));
+        fetchMessageStats(); // Refresh stats
+      } else {
+        console.error('Failed to update message status');
+      }
+    } catch (error) {
+      console.error('Error updating message status:', error);
+    }
+  };
+
+  const deleteMessage = async (messageId) => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch(`http://localhost:5001/api/messages/${messageId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      
+      if (response.ok) {
+        setMessages(prev => prev.filter(msg => msg._id !== messageId));
+        fetchMessageStats(); // Refresh stats
+      } else {
+        console.error('Failed to delete message');
+      }
+    } catch (error) {
+      console.error('Error deleting message:', error);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-blue-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">
+              <h1 className="text-3xl font-bold text-blue-900 mb-2">
                 Admin Panel
               </h1>
-              <p className="text-gray-600">
+              <p className="text-blue-600">
                 Manage your school website content
               </p>
               {debugInfo && (
-                <div className="mt-2 p-2 bg-blue-50 rounded text-sm text-blue-700">
+                <div className="mt-2 p-2 bg-yellow-50 rounded text-sm text-yellow-700">
                   <AlertCircle className="w-4 h-4 inline mr-1" />
                   Debug: {debugInfo}
                 </div>
@@ -192,8 +280,10 @@ const AdminPanel = () => {
             </div>
             <button
               onClick={() => {
-                localStorage.removeItem("adminAuthenticated");
-                window.location.href = "/admin";
+                localStorage.removeItem("adminToken");
+                localStorage.removeItem("adminData");
+                window.dispatchEvent(new Event("adminAuthChange"));
+                navigate("/admin");
               }}
               className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
             >
@@ -209,8 +299,8 @@ const AdminPanel = () => {
               onClick={() => setActiveTab("gallery")}
               className={`px-4 py-2 font-medium rounded-lg transition-colors ${
                 activeTab === "gallery"
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-600 hover:text-gray-800"
+                  ? "bg-yellow-500 text-white"
+                  : "text-blue-600 hover:text-blue-800"
               }`}
             >
               <ImageIcon className="w-5 h-5 inline mr-2" />
@@ -220,8 +310,8 @@ const AdminPanel = () => {
               onClick={() => setActiveTab("slideshow")}
               className={`px-4 py-2 font-medium rounded-lg transition-colors ${
                 activeTab === "slideshow"
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-600 hover:text-gray-800"
+                  ? "bg-yellow-500 text-white"
+                  : "text-blue-600 hover:text-blue-800"
               }`}
             >
               <ImageIcon className="w-5 h-5 inline mr-2" />
@@ -231,8 +321,8 @@ const AdminPanel = () => {
               onClick={() => setActiveTab("videos")}
               className={`px-4 py-2 font-medium rounded-lg transition-colors ${
                 activeTab === "videos"
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-600 hover:text-gray-800"
+                  ? "bg-yellow-500 text-white"
+                  : "text-blue-600 hover:text-blue-800"
               }`}
             >
               <Video className="w-5 h-5 inline mr-2" />
@@ -242,19 +332,35 @@ const AdminPanel = () => {
               onClick={() => setActiveTab("notices")}
               className={`px-4 py-2 font-medium rounded-lg transition-colors ${
                 activeTab === "notices"
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-600 hover:text-gray-800"
+                  ? "bg-yellow-500 text-white"
+                  : "text-blue-600 hover:text-blue-800"
               }`}
             >
               <FileText className="w-5 h-5 inline mr-2" />
               Notices
+            </button>
+            <button
+              onClick={() => setActiveTab("messages")}
+              className={`px-4 py-2 font-medium rounded-lg transition-colors ${
+                activeTab === "messages"
+                  ? "bg-yellow-500 text-white"
+                  : "text-blue-600 hover:text-blue-800"
+              }`}
+            >
+              <MessageCircle className="w-5 h-5 inline mr-2" />
+              Messages
+              {messageStats.unread > 0 && (
+                <span className="ml-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                  {messageStats.unread}
+                </span>
+              )}
             </button>
           </div>
         </div>
 
         {/* Admission Settings */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          <h2 className="text-2xl font-bold text-blue-900 mb-4">
             Admission Settings
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -272,16 +378,16 @@ const AdminPanel = () => {
                   }}
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                 />
-                <span className="text-lg font-medium text-gray-700">
+                <span className="text-lg font-medium text-blue-700">
                   Admission Open
                 </span>
               </label>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-blue-500 mt-1">
                 Toggle admission status for the website
               </p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-blue-700 mb-2">
                 Admission Session
               </label>
               <input
@@ -295,9 +401,9 @@ const AdminPanel = () => {
                   });
                 }}
                 placeholder="e.g., 2024-25, 2025-26"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
               />
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-blue-500 mt-1">
                 This will appear on the website
               </p>
             </div>
@@ -309,10 +415,10 @@ const AdminPanel = () => {
           {activeTab === "gallery" && (
             <div>
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">
+                <h2 className="text-2xl font-bold text-blue-900">
                   Gallery Management ({galleryImages.length} images)
                 </h2>
-                <label className="bg-blue-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-700 transition-colors">
+                <label className="bg-yellow-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-yellow-600 transition-colors">
                   <Upload className="w-5 h-5 inline mr-2" />
                   Upload Images
                   <input
@@ -325,9 +431,9 @@ const AdminPanel = () => {
               </div>
 
               {isUploading && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
                   <div className="flex items-center">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-yellow-600 mr-2"></div>
                     Uploading images...
                   </div>
                 </div>
@@ -348,7 +454,7 @@ const AdminPanel = () => {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {galleryImages.map((image) => (
-                      <div key={image.id} className="bg-gray-50 rounded-lg p-4">
+                      <div key={image._id} className="bg-gray-50 rounded-lg p-4">
                         <img
                           src={image.url}
                           alt={image.title}
@@ -381,10 +487,10 @@ const AdminPanel = () => {
           {activeTab === "slideshow" && (
             <div>
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">
+                <h2 className="text-2xl font-bold text-blue-900">
                   Slideshow Management
                 </h2>
-                <label className="bg-blue-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-700 transition-colors">
+                <label className="bg-yellow-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-yellow-600 transition-colors">
                   <Upload className="w-5 h-5 inline mr-2" />
                   Upload Slideshow Images
                   <input
@@ -398,7 +504,7 @@ const AdminPanel = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {slideshowImages.map((image) => (
-                  <div key={image.id} className="bg-gray-50 rounded-lg p-4">
+                  <div key={image._id} className="bg-gray-50 rounded-lg p-4">
                     <img
                       src={image.url}
                       alt={image.title}
@@ -412,7 +518,7 @@ const AdminPanel = () => {
                       <div className="flex justify-between items-center">
                         <button
                           onClick={() =>
-                            toggleImageActive(image.id, "slideshow")
+                            toggleImageActive(image._id, "slideshow")
                           }
                           className={`px-3 py-1 rounded text-sm ${
                             image.active
@@ -444,10 +550,10 @@ const AdminPanel = () => {
           {activeTab === "videos" && (
             <div>
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">
+                <h2 className="text-2xl font-bold text-blue-900">
                   Video Management ({videos.length} videos)
                 </h2>
-                <label className="bg-blue-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-700 transition-colors">
+                <label className="bg-yellow-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-yellow-600 transition-colors">
                   <Upload className="w-5 h-5 inline mr-2" />
                   Upload Video
                   <input
@@ -460,9 +566,9 @@ const AdminPanel = () => {
               </div>
 
               {isUploading && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
                   <div className="flex items-center">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-yellow-600 mr-2"></div>
                     Uploading video...
                   </div>
                 </div>
@@ -515,12 +621,12 @@ const AdminPanel = () => {
           {activeTab === "notices" && (
             <div>
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">
+                <h2 className="text-2xl font-bold text-blue-900">
                   Notices & Updates
                 </h2>
                 <button
                   onClick={() => setShowAddNotice(true)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors"
                 >
                   <Plus className="w-5 h-5 inline mr-2" />
                   Add Notice
@@ -529,7 +635,7 @@ const AdminPanel = () => {
 
               <div className="space-y-4">
                 {notices.map((notice) => (
-                  <div key={notice.id} className="bg-gray-50 rounded-lg p-4">
+                  <div key={notice._id} className="bg-gray-50 rounded-lg p-4">
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-2">
@@ -556,7 +662,7 @@ const AdminPanel = () => {
                       </div>
                       <div className="flex space-x-2">
                         <button
-                          onClick={() => toggleNoticeActive(notice.id)}
+                          onClick={() => toggleNoticeActive(notice._id)}
                           className={`p-2 rounded ${
                             notice.active
                               ? "bg-green-100 text-green-800"
@@ -576,7 +682,7 @@ const AdminPanel = () => {
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => removeNotice(notice.id)}
+                          onClick={() => removeNotice(notice._id)}
                           className="p-2 bg-red-100 text-red-800 rounded hover:bg-red-200 transition-colors"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -585,6 +691,94 @@ const AdminPanel = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === "messages" && (
+            <div>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-blue-900">
+                  Customer Messages
+                </h2>
+                <div className="flex space-x-4 text-sm">
+                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full">
+                    Total: {messageStats.total}
+                  </span>
+                  <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full">
+                    Unread: {messageStats.unread}
+                  </span>
+                  <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full">
+                    Read: {messageStats.read}
+                  </span>
+                  <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full">
+                    Replied: {messageStats.replied}
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {messages.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    <MessageCircle className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+                    <p>No messages found</p>
+                  </div>
+                ) : (
+                  messages.map((message) => (
+                    <div 
+                      key={message._id} 
+                      className={`bg-gray-50 rounded-lg p-4 border-l-4 ${
+                        message.status === 'unread' ? 'border-red-500 bg-red-50' :
+                        message.status === 'read' ? 'border-yellow-500 bg-yellow-50' :
+                        'border-green-500 bg-green-50'
+                      }`}
+                    >
+                      <div className="flex justify-between items-start">
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <h3 className="font-semibold text-gray-800">
+                              {message.name}
+                            </h3>
+                            <span className={`px-2 py-1 rounded text-xs ${
+                              message.status === 'unread' ? 'bg-red-100 text-red-800' :
+                              message.status === 'read' ? 'bg-yellow-100 text-yellow-800' :
+                              'bg-green-100 text-green-800'
+                            }`}>
+                              {message.status}
+                            </span>
+                            <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                              {message.subject}
+                            </span>
+                          </div>
+                          <div className="space-y-1 text-sm text-gray-600 mb-2">
+                            <p><strong>Email:</strong> {message.email}</p>
+                            <p><strong>Phone:</strong> {message.phone}</p>
+                            <p><strong>Date:</strong> {new Date(message.createdAt).toLocaleDateString()}</p>
+                          </div>
+                          <p className="text-gray-700">{message.message}</p>
+                        </div>
+                        <div className="flex space-x-2">
+                          <select
+                            value={message.status}
+                            onChange={(e) => updateMessageStatus(message._id, e.target.value)}
+                            className="p-2 border border-gray-300 rounded text-sm"
+                          >
+                            <option value="unread">Unread</option>
+                            <option value="read">Read</option>
+                            <option value="replied">Replied</option>
+                          </select>
+                          <button
+                            onClick={() => deleteMessage(message._id)}
+                            className="p-2 bg-red-100 text-red-800 rounded hover:bg-red-200 transition-colors"
+                            title="Delete message"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           )}
@@ -758,7 +952,7 @@ const ImageUploadForm = ({ file, type, isUploading, onSubmit, onCancel }) => {
             <button
               type="submit"
               disabled={isUploading}
-              className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="flex-1 bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
               {isUploading ? (
                 <>
@@ -873,7 +1067,7 @@ const NoticeForm = ({ notice, onSubmit, onCancel }) => {
       <div className="flex space-x-3 pt-4">
         <button
           type="submit"
-          className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex-1 bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition-colors"
         >
           <Save className="w-4 h-4 inline mr-2" />
           {notice ? "Update" : "Save"}

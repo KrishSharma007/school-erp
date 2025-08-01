@@ -4,6 +4,7 @@ const GalleryImage = require("../models/GalleryImage");
 const cloudinary = require("cloudinary").v2;
 const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });
+const auth = require("../middleware/auth");
 require("dotenv").config({
   path: require("path").resolve(__dirname, "../config.env"),
 });
@@ -14,7 +15,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Get all gallery images
+// Get all gallery images (public route)
 router.get("/", async (req, res) => {
   try {
     const images = await GalleryImage.find({ active: true }).sort({
@@ -26,7 +27,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get gallery images by category
+// Get gallery images by category (public route)
 router.get("/category/:category", async (req, res) => {
   try {
     const { category } = req.params;
@@ -40,8 +41,8 @@ router.get("/category/:category", async (req, res) => {
   }
 });
 
-// Add new gallery image (transactional, with multer)
-router.post("/", upload.single("file"), async (req, res) => {
+// Add new gallery image (protected route)
+router.post("/", auth, upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No image file provided" });
@@ -92,8 +93,8 @@ router.post("/", upload.single("file"), async (req, res) => {
   }
 });
 
-// Update gallery image (transactional)
-router.patch("/:id", async (req, res) => {
+// Update gallery image (protected route)
+router.patch("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
     const { file, ...updates } = req.body;
@@ -147,8 +148,8 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
-// Delete gallery image (from both MongoDB and Cloudinary)
-router.delete("/:id", async (req, res) => {
+// Delete gallery image (protected route)
+router.delete("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
     const image = await GalleryImage.findById(id);

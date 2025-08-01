@@ -17,30 +17,42 @@ const AdminLogin = () => {
     setIsLoading(true);
     setError("");
 
-    // Simple authentication - in real app, this would be API call
-    setTimeout(() => {
-      if (
-        credentials.username === "admin" &&
-        credentials.password === "admin123"
-      ) {
-        localStorage.setItem("adminAuthenticated", "true");
+    try {
+      const response = await fetch("http://localhost:5001/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("adminToken", data.token);
+        localStorage.setItem("adminData", JSON.stringify(data.admin));
+        window.dispatchEvent(new Event("adminAuthChange"));
         navigate("/admin");
       } else {
-        setError("Invalid username or password");
+        setError(data.error || "Login failed");
       }
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("Network error. Please try again.");
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 flex items-center justify-center">
+    <div className="min-h-screen bg-blue-50 flex items-center justify-center">
       <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
             <Lock className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">Admin Login</h1>
-          <p className="text-gray-600">Access the admin panel</p>
+          <h1 className="text-2xl font-bold text-blue-900 mb-2">Admin Login</h1>
+          <p className="text-blue-600">Access the admin panel</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -102,7 +114,7 @@ const AdminLogin = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-yellow-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-yellow-600 hover:shadow-lg transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <div className="flex items-center justify-center">
@@ -116,7 +128,7 @@ const AdminLogin = () => {
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-blue-600">
             Demo Credentials: admin / admin123
           </p>
         </div>

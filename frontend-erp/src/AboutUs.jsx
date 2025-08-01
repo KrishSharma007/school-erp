@@ -316,20 +316,20 @@ const AboutUs = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-amber-50 pt-12 sm:pt-16">
+    <div className="min-h-screen bg-blue-50 pt-12 sm:pt-16">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-12">
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 px-4">
             About JAI MODERN SR. SEC. SCHOOL DULHERA
           </h1>
-          <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-amber-500 to-yellow-500 mx-auto rounded-full"></div>
+          <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-yellow-600 to-amber-600 mx-auto rounded-full"></div>
         </div>
 
         <div className="grid lg:grid-cols-4 gap-4 lg:gap-8">
           {/* Quick Links Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-yellow-100 rounded-xl shadow-lg p-4 lg:p-6 lg:sticky lg:top-24 border border-yellow-200">
+            <div className="bg-white rounded-xl shadow-lg p-4 lg:p-6 lg:sticky lg:top-24">
               <h3 className="text-lg lg:text-xl font-semibold text-gray-800 mb-4 lg:mb-6">
                 Quick Links
               </h3>
@@ -340,13 +340,13 @@ const AboutUs = () => {
                     <button
                       key={section.id}
                       onClick={() => setActiveSection(section.id)}
-                      className={`w-full flex items-center justify-center lg:justify-start space-x-2 lg:space-x-3 p-2 lg:p-3 rounded-lg transition-all duration-300 text-sm lg:text-base ${
-                        activeSection === section.id
-                          ? "bg-gradient-to-r from-amber-500 to-yellow-500 text-white shadow-lg"
-                          : "bg-yellow-50 text-gray-700 hover:bg-yellow-200 border border-yellow-200"
-                      }`}
+                                              className={`w-full flex items-center justify-center lg:justify-start space-x-2 lg:space-x-3 p-2 lg:p-3 rounded-lg transition-all duration-300 text-sm lg:text-base ${
+                          activeSection === section.id
+                            ? "bg-yellow-500 text-white shadow-lg"
+                            : "bg-gray-50 text-gray-700 hover:bg-yellow-50"
+                        }`}
                     >
-                      <Icon className="w-4 h-4 lg:w-5 lg:h-5" />
+                      <Icon className="w-4 h-4 lg:w-5 lg:h-5 text-blue-600" />
                       <span className="font-medium hidden sm:inline lg:inline">
                         {section.title}
                       </span>
@@ -362,10 +362,9 @@ const AboutUs = () => {
 
           {/* Main Content */}
           <div className="lg:col-span-3">
-            <div className="bg-yellow-50 rounded-xl shadow-lg p-4 sm:p-6 lg:p-8 border border-yellow-200">
+            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 lg:p-8">
               {
-                sections.find((section) => section.id === activeSection)
-                  ?.content
+                sections.find((section) => section.id === activeSection)?.content
               }
             </div>
           </div>

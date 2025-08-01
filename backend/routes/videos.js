@@ -5,6 +5,7 @@ const Video = require("../models/Video");
 const cloudinary = require("cloudinary").v2;
 const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });
+const auth = require("../middleware/auth");
 require("dotenv").config({
   path: require("path").resolve(__dirname, "../config.env"),
 });
@@ -15,7 +16,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Get all videos
+// Get all videos (public route)
 router.get("/", async (req, res) => {
   try {
     const videos = await Video.find({ active: true }).sort({ createdAt: -1 });
@@ -25,7 +26,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get videos by category
+// Get videos by category (public route)
 router.get("/category/:category", async (req, res) => {
   try {
     const { category } = req.params;
@@ -39,8 +40,8 @@ router.get("/category/:category", async (req, res) => {
   }
 });
 
-// Add new video (transactional, with multer)
-router.post("/", upload.single("file"), async (req, res) => {
+// Add new video (protected route)
+router.post("/", auth, upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No video file provided" });
@@ -94,8 +95,8 @@ router.post("/", upload.single("file"), async (req, res) => {
   }
 });
 
-// Update video (transactional, with multer)
-router.patch("/:id", upload.single("file"), async (req, res) => {
+// Update video (protected route)
+router.patch("/:id", auth, upload.single("file"), async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -172,8 +173,8 @@ router.patch("/:id", upload.single("file"), async (req, res) => {
   }
 });
 
-// Delete video (from both MongoDB and Cloudinary)
-router.delete("/:id", async (req, res) => {
+// Delete video (protected route)
+router.delete("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
     const video = await Video.findById(id);
@@ -207,8 +208,8 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// Batch delete endpoint
-router.post("/batch-delete", async (req, res) => {
+// Batch delete endpoint (protected route)
+router.post("/batch-delete", auth, async (req, res) => {
   const { ids } = req.body; // expects { ids: [id1, id2, ...] }
   if (!Array.isArray(ids) || ids.length === 0) {
     return res.status(400).json({ error: "No video IDs provided" });
@@ -248,8 +249,8 @@ router.post("/batch-delete", async (req, res) => {
   res.json({ results });
 });
 
-// Toggle video active status
-router.patch("/:id/toggle", async (req, res) => {
+// Toggle video active status (protected route)
+router.patch("/:id/toggle", auth, async (req, res) => {
   try {
     const { id } = req.params;
     const video = await Video.findById(id);

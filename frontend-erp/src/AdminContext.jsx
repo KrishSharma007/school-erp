@@ -16,31 +16,44 @@ export const AdminProvider = ({ children }) => {
 
   // Load data from API on component mount
   useEffect(() => {
-    console.log("AdminContext - Loading initial data...");
-    fetchGalleryImages();
-    fetchSlideshowImages();
-    fetchNotices();
-    fetchVideos();
-    fetchAdmissionSettings();
+    const loadInitialData = async () => {
+      try {
+        await Promise.all([
+          fetchGalleryImages(),
+          fetchSlideshowImages(),
+          fetchNotices(),
+          fetchVideos(),
+          fetchAdmissionSettings(),
+        ]);
+      } catch (error) {
+        console.error("Error loading initial data:", error);
+      }
+    };
+
+    loadInitialData();
   }, []);
+
+  // Helper function to get auth headers
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('adminToken');
+    return {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    };
+  };
 
   // API Functions
   const fetchGalleryImages = async () => {
     try {
       setLoading(true);
-      console.log("Fetching gallery images from:", `${API_BASE_URL}/gallery`);
-      const response = await fetch(`${API_BASE_URL}/gallery`);
-      console.log("Gallery fetch response status:", response.status);
+      const response = await fetch(`${API_BASE_URL}/gallery`, {
+        headers: getAuthHeaders(),
+      });
       if (response.ok) {
         const data = await response.json();
-        console.log("Gallery images fetched:", data);
         setGalleryImages(data);
       } else {
-        console.error(
-          "Gallery fetch failed:",
-          response.status,
-          response.statusText
-        );
+        console.error("Gallery fetch failed:", response.status, response.statusText);
       }
     } catch (error) {
       console.error("Error fetching gallery images:", error);
@@ -52,10 +65,14 @@ export const AdminProvider = ({ children }) => {
   const fetchSlideshowImages = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/slideshow`);
+      const response = await fetch(`${API_BASE_URL}/slideshow`, {
+        headers: getAuthHeaders(),
+      });
       if (response.ok) {
         const data = await response.json();
         setSlideshowImages(data);
+      } else {
+        console.error("Slideshow fetch failed:", response.status, response.statusText);
       }
     } catch (error) {
       console.error("Error fetching slideshow images:", error);
@@ -67,10 +84,14 @@ export const AdminProvider = ({ children }) => {
   const fetchNotices = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/notices`);
+      const response = await fetch(`${API_BASE_URL}/notices/admin`, {
+        headers: getAuthHeaders(),
+      });
       if (response.ok) {
         const data = await response.json();
         setNotices(data);
+      } else {
+        console.error("Notices fetch failed:", response.status, response.statusText);
       }
     } catch (error) {
       console.error("Error fetching notices:", error);
@@ -82,7 +103,9 @@ export const AdminProvider = ({ children }) => {
   const fetchVideos = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/videos`);
+      const response = await fetch(`${API_BASE_URL}/videos`, {
+        headers: getAuthHeaders(),
+      });
       if (response.ok) {
         const data = await response.json();
         setVideos(data);
@@ -102,8 +125,12 @@ export const AdminProvider = ({ children }) => {
       Object.entries(videoData).forEach(([key, value]) => {
         if (key !== "file") formData.append(key, value);
       });
+      const token = localStorage.getItem('adminToken');
       const response = await fetch(`${API_BASE_URL}/videos`, {
         method: "POST",
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
         body: formData,
       });
       if (response.ok) {
@@ -122,6 +149,7 @@ export const AdminProvider = ({ children }) => {
       setLoading(true);
       const response = await fetch(`${API_BASE_URL}/videos/${id}`, {
         method: "DELETE",
+        headers: getAuthHeaders(),
       });
       if (response.ok) {
         setVideos((prev) => prev.filter((video) => video._id !== id));
@@ -136,7 +164,9 @@ export const AdminProvider = ({ children }) => {
   const fetchAdmissionSettings = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/admission`);
+      const response = await fetch(`${API_BASE_URL}/admission`, {
+        headers: getAuthHeaders(),
+      });
       if (response.ok) {
         const data = await response.json();
         setIsAdmissionOpen(data.isAdmissionOpen);
@@ -154,9 +184,7 @@ export const AdminProvider = ({ children }) => {
       setLoading(true);
       const response = await fetch(`${API_BASE_URL}/admission`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(settings),
       });
       if (response.ok) {
@@ -179,8 +207,12 @@ export const AdminProvider = ({ children }) => {
       Object.entries(imageData).forEach(([key, value]) => {
         if (key !== "file") formData.append(key, value);
       });
+      const token = localStorage.getItem('adminToken');
       const response = await fetch(`${API_BASE_URL}/gallery`, {
         method: "POST",
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
         body: formData,
       });
       if (response.ok) {
@@ -199,6 +231,7 @@ export const AdminProvider = ({ children }) => {
       setLoading(true);
       const response = await fetch(`${API_BASE_URL}/gallery/${id}`, {
         method: "DELETE",
+        headers: getAuthHeaders(),
       });
       if (response.ok) {
         setGalleryImages((prev) => prev.filter((img) => img._id !== id));
@@ -218,8 +251,12 @@ export const AdminProvider = ({ children }) => {
       Object.entries(imageData).forEach(([key, value]) => {
         if (key !== "file") formData.append(key, value);
       });
+      const token = localStorage.getItem('adminToken');
       const response = await fetch(`${API_BASE_URL}/slideshow`, {
         method: "POST",
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
         body: formData,
       });
       if (response.ok) {
@@ -238,9 +275,13 @@ export const AdminProvider = ({ children }) => {
       setLoading(true);
       const response = await fetch(`${API_BASE_URL}/slideshow/${id}`, {
         method: "DELETE",
+        headers: getAuthHeaders(),
       });
       if (response.ok) {
         setSlideshowImages((prev) => prev.filter((img) => img._id !== id));
+      } else {
+        const errorText = await response.text();
+        console.error("Remove slideshow failed:", errorText);
       }
     } catch (error) {
       console.error("Error removing slideshow image:", error);
@@ -252,20 +293,20 @@ export const AdminProvider = ({ children }) => {
   const toggleSlideshowImageActive = async (id) => {
     try {
       setLoading(true);
-      const image = slideshowImages.find((img) => img._id === id);
-      const response = await fetch(`${API_BASE_URL}/slideshow/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/slideshow/${id}/toggle`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ active: !image.active }),
+        headers: getAuthHeaders(),
       });
       if (response.ok) {
+        const updatedImage = await response.json();
         setSlideshowImages((prev) =>
           prev.map((img) =>
-            img._id === id ? { ...img, active: !img.active } : img
+            img._id === id ? { ...img, active: updatedImage.active } : img
           )
         );
+      } else {
+        const errorText = await response.text();
+        console.error("Toggle slideshow failed:", errorText);
       }
     } catch (error) {
       console.error("Error toggling slideshow image:", error);
@@ -277,18 +318,16 @@ export const AdminProvider = ({ children }) => {
   const addNotice = async (noticeData) => {
     try {
       setLoading(true);
-      console.log("Adding notice:", noticeData);
       const response = await fetch(`${API_BASE_URL}/notices`, {
         method: "POST",
         headers: {
+          ...getAuthHeaders(),
           "Content-Type": "application/json",
         },
         body: JSON.stringify(noticeData),
       });
-      console.log("Notice response status:", response.status);
       if (response.ok) {
         const newNotice = await response.json();
-        console.log("Notice added successfully:", newNotice);
         setNotices((prev) => [...prev, newNotice]);
       } else {
         const errorText = await response.text();
@@ -306,9 +345,7 @@ export const AdminProvider = ({ children }) => {
       setLoading(true);
       const response = await fetch(`${API_BASE_URL}/notices/${id}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(updatedNotice),
       });
       if (response.ok) {
@@ -330,9 +367,13 @@ export const AdminProvider = ({ children }) => {
       setLoading(true);
       const response = await fetch(`${API_BASE_URL}/notices/${id}`, {
         method: "DELETE",
+        headers: getAuthHeaders(),
       });
       if (response.ok) {
         setNotices((prev) => prev.filter((notice) => notice._id !== id));
+      } else {
+        const errorText = await response.text();
+        console.error("Remove notice failed:", errorText);
       }
     } catch (error) {
       console.error("Error removing notice:", error);
@@ -345,19 +386,23 @@ export const AdminProvider = ({ children }) => {
     try {
       setLoading(true);
       const notice = notices.find((n) => n._id === id);
-      const response = await fetch(`${API_BASE_URL}/notices/${id}`, {
+      if (!notice) return;
+
+      const response = await fetch(`${API_BASE_URL}/notices/${id}/toggle`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ active: !notice.active }),
+        headers: getAuthHeaders(),
       });
+
       if (response.ok) {
+        const updatedNotice = await response.json();
         setNotices((prev) =>
           prev.map((notice) =>
             notice._id === id ? { ...notice, active: !notice.active } : notice
           )
         );
+      } else {
+        const errorText = await response.text();
+        console.error("Toggle notice failed:", errorText);
       }
     } catch (error) {
       console.error("Error toggling notice:", error);

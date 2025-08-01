@@ -187,8 +187,34 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const auth = localStorage.getItem("adminAuthenticated");
-    setIsAuthenticated(auth === "true");
+    const checkAuth = () => {
+      const token = localStorage.getItem("adminToken");
+      setIsAuthenticated(!!token);
+    };
+
+    // Check auth on mount
+    checkAuth();
+
+    // Listen for storage changes
+    const handleStorageChange = (e) => {
+      if (e.key === "adminToken") {
+        checkAuth();
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    
+    // Also listen for custom events (for same-tab logout)
+    const handleCustomStorageChange = () => {
+      checkAuth();
+    };
+
+    window.addEventListener("adminAuthChange", handleCustomStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("adminAuthChange", handleCustomStorageChange);
+    };
   }, []);
 
   return (

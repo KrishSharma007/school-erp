@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Notice = require("../models/Notice");
+const auth = require("../middleware/auth");
 
-// Get all active notices
+// Get all active notices (public route)
 router.get("/", async (req, res) => {
   try {
     const notices = await Notice.find({ active: true }).sort({ createdAt: -1 });
@@ -12,7 +13,17 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get notices by type
+// Get all notices for admin (protected route)
+router.get("/admin", auth, async (req, res) => {
+  try {
+    const notices = await Notice.find().sort({ createdAt: -1 });
+    res.json(notices);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get notices by type (public route)
 router.get("/type/:type", async (req, res) => {
   try {
     const { type } = req.params;
@@ -26,8 +37,8 @@ router.get("/type/:type", async (req, res) => {
   }
 });
 
-// Add new notice
-router.post("/", async (req, res) => {
+// Add new notice (protected route)
+router.post("/", auth, async (req, res) => {
   try {
     const noticeData = req.body;
     const newNotice = new Notice(noticeData);
@@ -38,8 +49,8 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Update notice
-router.patch("/:id", async (req, res) => {
+// Update notice (protected route)
+router.patch("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -55,8 +66,8 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
-// Delete notice
-router.delete("/:id", async (req, res) => {
+// Delete notice (protected route)
+router.delete("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
     const deletedNotice = await Notice.findByIdAndDelete(id);
@@ -69,8 +80,8 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// Toggle notice active status
-router.patch("/:id/toggle", async (req, res) => {
+// Toggle notice active status (protected route)
+router.patch("/:id/toggle", auth, async (req, res) => {
   try {
     const { id } = req.params;
     const notice = await Notice.findById(id);

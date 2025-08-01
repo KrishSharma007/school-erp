@@ -4,6 +4,7 @@ const SlideshowImage = require("../models/SlideshowImage");
 const cloudinary = require("cloudinary").v2;
 const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });
+const auth = require("../middleware/auth");
 require("dotenv").config({
   path: require("path").resolve(__dirname, "../config.env"),
 });
@@ -14,7 +15,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Get all active slideshow images
+// Get all active slideshow images (public route)
 router.get("/", async (req, res) => {
   try {
     const images = await SlideshowImage.find({ active: true }).sort({
@@ -27,8 +28,8 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Add new slideshow image (transactional, with multer)
-router.post("/", upload.single("file"), async (req, res) => {
+// Add new slideshow image (protected route)
+router.post("/", auth, upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No image file provided" });
@@ -80,8 +81,8 @@ router.post("/", upload.single("file"), async (req, res) => {
   }
 });
 
-// Update slideshow image (transactional)
-router.patch("/:id", async (req, res) => {
+// Update slideshow image (protected route)
+router.patch("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
     const { file, ...updates } = req.body;
@@ -135,8 +136,8 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
-// Delete slideshow image (from both MongoDB and Cloudinary)
-router.delete("/:id", async (req, res) => {
+// Delete slideshow image (protected route)
+router.delete("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
     const image = await SlideshowImage.findById(id);
@@ -170,8 +171,8 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// Toggle image active status
-router.patch("/:id/toggle", async (req, res) => {
+// Toggle image active status (protected route)
+router.patch("/:id/toggle", auth, async (req, res) => {
   try {
     const { id } = req.params;
     const image = await SlideshowImage.findById(id);
