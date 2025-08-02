@@ -689,10 +689,10 @@ const HomePage = () => {
               activeNotices.map((notice, index) => {
                 const isExpanded = expandedNotices[notice._id || index];
                 const content = notice.content || "No content available";
-                const shouldTruncate = content.length > 150;
+                const shouldTruncate = content.length > 25;
                 const displayContent = isExpanded
                   ? content
-                  : content.substring(0, 150) + (shouldTruncate ? "..." : "");
+                  : content.substring(0, 25) + (shouldTruncate ? "..." : "");
 
                 return (
                   <div
