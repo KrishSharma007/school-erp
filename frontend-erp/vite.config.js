@@ -35,5 +35,7 @@ export default defineConfig(({ command, mode }) => {
     define: {
       __DEV__: !isProduction,
     },
+    // Add base path configuration for better routing support
+    base: "/",
   };
 });
