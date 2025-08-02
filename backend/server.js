@@ -5,7 +5,6 @@ const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 const helmet = require("helmet");
-const rateLimit = require("express-rate-limit");
 require("dotenv").config({ path: "./config.env" });
 
 const app = express();
@@ -15,21 +14,14 @@ const NODE_ENV = process.env.NODE_ENV || "development";
 // Security middleware
 app.use(helmet());
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: "Too many requests from this IP, please try again later."
-});
-app.use("/api/", limiter);
-
 // CORS configuration
 const corsOptions = {
-  origin: NODE_ENV === "production" 
-    ? process.env.CORS_ORIGIN || "https://your-domain.com"
-    : "http://localhost:5173",
+  origin:
+    NODE_ENV === "production"
+      ? process.env.CORS_ORIGIN || "https://school-erp-iota.vercel.app/"
+      : "http://localhost:5173",
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
 
@@ -74,11 +66,11 @@ app.use("/api/messages", messagesRoutes);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
-  res.json({ 
-    status: "OK", 
+  res.json({
+    status: "OK",
     message: "Server is running",
     environment: NODE_ENV,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
@@ -89,21 +81,20 @@ app.use("*", (req, res) => {
 
 // Global error handling middleware
 app.use((err, req, res, next) => {
-  const errorMessage = NODE_ENV === "production" 
-    ? "Something went wrong!" 
-    : err.message;
-  
+  const errorMessage =
+    NODE_ENV === "production" ? "Something went wrong!" : err.message;
+
   console.error("Error:", {
     message: err.message,
     stack: err.stack,
     url: req.url,
     method: req.method,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
-  
-  res.status(err.status || 500).json({ 
+
+  res.status(err.status || 500).json({
     error: errorMessage,
-    ...(NODE_ENV === "development" && { stack: err.stack })
+    ...(NODE_ENV === "development" && { stack: err.stack }),
   });
 });
 
@@ -136,9 +127,9 @@ server.on("error", (error) => {
   if (error.syscall !== "listen") {
     throw error;
   }
-  
+
   const bind = typeof PORT === "string" ? "Pipe " + PORT : "Port " + PORT;
-  
+
   switch (error.code) {
     case "EACCES":
       console.error(bind + " requires elevated privileges");
