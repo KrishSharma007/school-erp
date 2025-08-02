@@ -66,11 +66,9 @@ const AdminPanel = () => {
 
   // Fetch messages when messages tab is active
   useEffect(() => {
-    if (activeTab === "messages") {
-      fetchMessages();
-      fetchMessageStats();
-    }
-  }, [activeTab]);
+    fetchMessages();
+    fetchMessageStats();
+  }, []);
 
   // Debug info
   useEffect(() => {
@@ -249,15 +247,12 @@ const AdminPanel = () => {
   const deleteMessage = async (messageId) => {
     try {
       const token = localStorage.getItem("adminToken");
-      const response = await fetch(
-        `${API_BASE_URL}/messages/${messageId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}/messages/${messageId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (response.ok) {
         setMessages((prev) => prev.filter((msg) => msg._id !== messageId));
