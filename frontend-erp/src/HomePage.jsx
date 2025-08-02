@@ -99,15 +99,17 @@ const HomePage = () => {
       return newState;
     });
   };
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [submitStatus, setSubmitStatus] = React.useState(null);
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     subject: "",
     message: "",
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -115,6 +117,7 @@ const HomePage = () => {
       [name]: value,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -992,6 +995,7 @@ const HomePage = () => {
                 <div className="grid md:grid-cols-2 gap-4">
                   <input
                     type="text"
+                    name="name"
                     placeholder="Your Name"
                     value={formData.name}
                     onChange={handleInputChange}
@@ -1000,6 +1004,7 @@ const HomePage = () => {
                   />
                   <input
                     type="email"
+                    name="email"
                     placeholder="Your Email"
                     value={formData.email}
                     onChange={handleInputChange}
@@ -1008,8 +1013,18 @@ const HomePage = () => {
                   />
                 </div>
                 <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="Your phone number"
+                  className="w-full px-4 py-4 bg-gray-700 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:bg-gray-600 transition-all"
+                />
+                <input
                   type="text"
                   placeholder="Subject"
+                  name="subject"
                   value={formData.subject}
                   onChange={handleInputChange}
                   required
@@ -1017,6 +1032,7 @@ const HomePage = () => {
                 />
                 <textarea
                   rows={5}
+                  name="message"
                   placeholder="Your Message"
                   value={formData.message}
                   onChange={handleInputChange}
