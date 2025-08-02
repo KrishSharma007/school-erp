@@ -38,8 +38,10 @@ import {
   Bell,
   Eye,
   Heart,
+  Send,
 } from "lucide-react";
 import { useAdmin } from "./hooks/useAdmin";
+import { API_BASE_URL } from "./config/api";
 
 const HomePage = () => {
   const {
@@ -56,7 +58,7 @@ const HomePage = () => {
   // Filter active slideshow images
   const activeSlides = slideshowImages.filter((img) => img.active);
   const slideCount = activeSlides.length;
-  
+
   // Filter active notices
   const activeNotices = notices.filter((notice) => notice.active);
 
@@ -87,7 +89,7 @@ const HomePage = () => {
   };
 
   const toggleNoticeExpanded = (noticeId) => {
-    setExpandedNotices(prev => {
+    setExpandedNotices((prev) => {
       const newState = { ...prev };
       if (newState[noticeId]) {
         delete newState[noticeId];
@@ -97,7 +99,63 @@ const HomePage = () => {
       return newState;
     });
   };
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [submitStatus, setSubmitStatus] = React.useState(null);
+  const [formData, setFormData] = React.useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
 
+    try {
+      const response = await fetch(`${API_BASE_URL}/messages`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({ type: "success", message: data.message });
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        setSubmitStatus({
+          type: "error",
+          message: data.error || "Failed to send message",
+        });
+      }
+    } catch (error) {
+      console.error("Message submission error:", error);
+      setSubmitStatus({
+        type: "error",
+        message: "Network error. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   const schoolData = {
     name: "JAI MODERN SR. SEC. SCHOOL DULHERA",
     tagline: "Empowering Minds, Building Futures",
@@ -275,9 +333,7 @@ const HomePage = () => {
                   </div>
                 )}
                 <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-                  <span className="text-white">
-                    Best School of India
-                  </span>
+                  <span className="text-white">Best School of India</span>
                   <span className="block text-yellow-400 text-3xl lg:text-4xl mt-2">
                     #1 Top Education School
                   </span>
@@ -631,8 +687,10 @@ const HomePage = () => {
                 const isExpanded = expandedNotices[notice._id || index];
                 const content = notice.content || "No content available";
                 const shouldTruncate = content.length > 150;
-                const displayContent = isExpanded ? content : content.substring(0, 150) + (shouldTruncate ? "..." : "");
-                
+                const displayContent = isExpanded
+                  ? content
+                  : content.substring(0, 150) + (shouldTruncate ? "..." : "");
+
                 return (
                   <div
                     key={notice._id || index}
@@ -654,12 +712,18 @@ const HomePage = () => {
                     </p>
                     {shouldTruncate && (
                       <div className="flex items-center justify-between">
-                        <button 
-                          onClick={() => toggleNoticeExpanded(notice._id || index)}
+                        <button
+                          onClick={() =>
+                            toggleNoticeExpanded(notice._id || index)
+                          }
                           className="text-blue-600 hover:text-blue-800 font-semibold text-sm flex items-center space-x-1 group-hover:translate-x-1 transition-transform bg-blue-50 hover:bg-blue-100 px-3 py-2 rounded-lg"
                         >
                           <span>{isExpanded ? "Read Less" : "Read More"}</span>
-                          <ArrowRight className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
+                          <ArrowRight
+                            className={`w-4 h-4 transition-transform ${
+                              isExpanded ? "rotate-90" : ""
+                            }`}
+                          />
                         </button>
                       </div>
                     )}
@@ -924,35 +988,69 @@ const HomePage = () => {
                 <MessageCircle className="w-6 h-6 mr-2" />
                 Send us a Message
               </h3>
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <input
                     type="text"
                     placeholder="Your Name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
                     className="w-full px-4 py-4 bg-gray-700 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:bg-gray-600 transition-all"
                   />
                   <input
                     type="email"
                     placeholder="Your Email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
                     className="w-full px-4 py-4 bg-gray-700 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:bg-gray-600 transition-all"
                   />
                 </div>
                 <input
                   type="text"
                   placeholder="Subject"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  required
                   className="w-full px-4 py-4 bg-gray-700 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:bg-gray-600 transition-all"
                 />
                 <textarea
                   rows={5}
                   placeholder="Your Message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
                   className="w-full px-4 py-4 bg-gray-700 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:bg-gray-600 transition-all resize-none"
                 ></textarea>
+                {submitStatus && (
+                  <div
+                    className={`p-4 rounded-lg ${
+                      submitStatus.type === "success"
+                        ? "bg-green-100 text-green-800 border border-green-300"
+                        : "bg-red-100 text-red-800 border border-red-300"
+                    }`}
+                  >
+                    {submitStatus.message}
+                  </div>
+                )}
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="w-full py-4 bg-yellow-500 text-white rounded-xl font-bold hover:bg-yellow-400 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
                 >
-                  <span>Send Message</span>
-                  <ArrowRight className="w-5 h-5" />
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      <span>Send Message</span>
+                      <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
                 </button>
               </form>
             </div>
