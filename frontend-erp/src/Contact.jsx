@@ -13,23 +13,24 @@ import {
   Youtube,
   Star,
 } from "lucide-react";
+import { API_BASE_URL } from "./config/api";
 
 const Contact = () => {
   const [formData, setFormData] = React.useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [submitStatus, setSubmitStatus] = React.useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -39,10 +40,10 @@ const Contact = () => {
     setSubmitStatus(null);
 
     try {
-      const response = await fetch('http://localhost:5001/api/messages', {
-        method: 'POST',
+      const response = await fetch(`${API_BASE_URL}/messages`, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -50,20 +51,26 @@ const Contact = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setSubmitStatus({ type: 'success', message: data.message });
+        setSubmitStatus({ type: "success", message: data.message });
         setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          subject: '',
-          message: ''
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
         });
       } else {
-        setSubmitStatus({ type: 'error', message: data.error || 'Failed to send message' });
+        setSubmitStatus({
+          type: "error",
+          message: data.error || "Failed to send message",
+        });
       }
     } catch (error) {
-      console.error('Message submission error:', error);
-      setSubmitStatus({ type: 'error', message: 'Network error. Please try again.' });
+      console.error("Message submission error:", error);
+      setSubmitStatus({
+        type: "error",
+        message: "Network error. Please try again.",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -171,115 +178,119 @@ const Contact = () => {
               <h3 className="text-2xl font-bold text-gray-800 mb-6">
                 Send us a Message
               </h3>
-                              <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Full Name
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Enter your full name"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Phone
-                      </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Enter your phone number"
-                      />
-                    </div>
-                  </div>
-
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Email
+                      Full Name
                     </label>
                     <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
+                      type="text"
+                      name="name"
+                      value={formData.name}
                       onChange={handleInputChange}
                       required
                       className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter your email"
+                      placeholder="Enter your full name"
                     />
                   </div>
-
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Subject
+                      Phone
                     </label>
-                    <select 
-                      name="subject"
-                      value={formData.subject}
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
                       onChange={handleInputChange}
                       required
                       className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    >
-                      <option value="">Select a subject</option>
-                      <option value="Admission Inquiry">Admission Inquiry</option>
-                      <option value="General Information">General Information</option>
-                      <option value="Academic Programs">Academic Programs</option>
-                      <option value="Facilities">Facilities</option>
-                      <option value="Other">Other</option>
-                    </select>
+                      placeholder="Enter your phone number"
+                    />
                   </div>
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Message
-                    </label>
-                    <textarea
-                      rows={4}
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter your message"
-                    ></textarea>
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Enter your email"
+                  />
+                </div>
 
-                  {submitStatus && (
-                    <div className={`p-4 rounded-lg ${
-                      submitStatus.type === 'success' 
-                        ? 'bg-green-100 text-green-800 border border-green-300' 
-                        : 'bg-red-100 text-red-800 border border-red-300'
-                    }`}>
-                      {submitStatus.message}
-                    </div>
-                  )}
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full py-3 bg-yellow-500 text-white rounded-lg font-semibold hover:bg-yellow-400 transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Subject
+                  </label>
+                  <select
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
-                    {isSubmitting ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5" />
-                        <span>Send Message</span>
-                      </>
-                    )}
-                  </button>
+                    <option value="">Select a subject</option>
+                    <option value="Admission Inquiry">Admission Inquiry</option>
+                    <option value="General Information">
+                      General Information
+                    </option>
+                    <option value="Academic Programs">Academic Programs</option>
+                    <option value="Facilities">Facilities</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    rows={4}
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Enter your message"
+                  ></textarea>
+                </div>
+
+                {submitStatus && (
+                  <div
+                    className={`p-4 rounded-lg ${
+                      submitStatus.type === "success"
+                        ? "bg-green-100 text-green-800 border border-green-300"
+                        : "bg-red-100 text-red-800 border border-red-300"
+                    }`}
+                  >
+                    {submitStatus.message}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-3 bg-yellow-500 text-white rounded-lg font-semibold hover:bg-yellow-400 transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      <span>Send Message</span>
+                    </>
+                  )}
+                </button>
               </form>
             </div>
 
@@ -442,7 +453,10 @@ const Contact = () => {
                   "We offer smart classrooms, science laboratories, sports complex, library, cafeteria, and many more modern facilities.",
               },
             ].map((faq, index) => (
-              <div key={index} className="bg-yellow-200 rounded-xl p-6 shadow-lg border border-yellow-300">
+              <div
+                key={index}
+                className="bg-yellow-200 rounded-xl p-6 shadow-lg border border-yellow-300"
+              >
                 <h3 className="text-lg font-semibold text-gray-800 mb-3">
                   {faq.question}
                 </h3>

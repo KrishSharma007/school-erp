@@ -20,6 +20,7 @@ import {
   Video,
   MessageCircle,
 } from "lucide-react";
+import { API_BASE_URL } from "./config/api";
 
 const AdminPanel = () => {
   const navigate = useNavigate();
@@ -32,7 +33,12 @@ const AdminPanel = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadType, setUploadType] = useState("gallery");
   const [messages, setMessages] = useState([]);
-  const [messageStats, setMessageStats] = useState({ total: 0, unread: 0, read: 0, replied: 0 });
+  const [messageStats, setMessageStats] = useState({
+    total: 0,
+    unread: 0,
+    read: 0,
+    replied: 0,
+  });
 
   const {
     galleryImages,
@@ -173,88 +179,94 @@ const AdminPanel = () => {
 
   const fetchMessages = async () => {
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:5001/api/messages/admin', {
+      const token = localStorage.getItem("adminToken");
+      const response = await fetch(`${API_BASE_URL}/messages/admin`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         setMessages(data);
       } else {
-        console.error('Failed to fetch messages');
+        console.error("Failed to fetch messages");
       }
     } catch (error) {
-      console.error('Error fetching messages:', error);
+      console.error("Error fetching messages:", error);
     }
   };
 
   const fetchMessageStats = async () => {
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:5001/api/messages/admin/stats', {
+      const token = localStorage.getItem("adminToken");
+      const response = await fetch(`${API_BASE_URL}/messages/admin/stats`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         setMessageStats(data);
       } else {
-        console.error('Failed to fetch message stats');
+        console.error("Failed to fetch message stats");
       }
     } catch (error) {
-      console.error('Error fetching message stats:', error);
+      console.error("Error fetching message stats:", error);
     }
   };
 
   const updateMessageStatus = async (messageId, status) => {
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch(`http://localhost:5001/api/messages/${messageId}/status`, {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ status }),
-      });
-      
+      const token = localStorage.getItem("adminToken");
+      const response = await fetch(
+        `${API_BASE_URL}/messages/${messageId}/status`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status }),
+        }
+      );
+
       if (response.ok) {
         const updatedMessage = await response.json();
-        setMessages(prev => prev.map(msg => 
-          msg._id === messageId ? updatedMessage : msg
-        ));
+        setMessages((prev) =>
+          prev.map((msg) => (msg._id === messageId ? updatedMessage : msg))
+        );
         fetchMessageStats(); // Refresh stats
       } else {
-        console.error('Failed to update message status');
+        console.error("Failed to update message status");
       }
     } catch (error) {
-      console.error('Error updating message status:', error);
+      console.error("Error updating message status:", error);
     }
   };
 
   const deleteMessage = async (messageId) => {
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch(`http://localhost:5001/api/messages/${messageId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      
+      const token = localStorage.getItem("adminToken");
+      const response = await fetch(
+        `${API_BASE_URL}/messages/${messageId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       if (response.ok) {
-        setMessages(prev => prev.filter(msg => msg._id !== messageId));
+        setMessages((prev) => prev.filter((msg) => msg._id !== messageId));
         fetchMessageStats(); // Refresh stats
       } else {
-        console.error('Failed to delete message');
+        console.error("Failed to delete message");
       }
     } catch (error) {
-      console.error('Error deleting message:', error);
+      console.error("Error deleting message:", error);
     }
   };
 
@@ -454,7 +466,10 @@ const AdminPanel = () => {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {galleryImages.map((image) => (
-                      <div key={image._id} className="bg-gray-50 rounded-lg p-4">
+                      <div
+                        key={image._id}
+                        className="bg-gray-50 rounded-lg p-4"
+                      >
                         <img
                           src={image.url}
                           alt={image.title}
@@ -725,12 +740,14 @@ const AdminPanel = () => {
                   </div>
                 ) : (
                   messages.map((message) => (
-                    <div 
-                      key={message._id} 
+                    <div
+                      key={message._id}
                       className={`bg-gray-50 rounded-lg p-4 border-l-4 ${
-                        message.status === 'unread' ? 'border-red-500 bg-red-50' :
-                        message.status === 'read' ? 'border-yellow-500 bg-yellow-50' :
-                        'border-green-500 bg-green-50'
+                        message.status === "unread"
+                          ? "border-red-500 bg-red-50"
+                          : message.status === "read"
+                          ? "border-yellow-500 bg-yellow-50"
+                          : "border-green-500 bg-green-50"
                       }`}
                     >
                       <div className="flex justify-between items-start">
@@ -739,11 +756,15 @@ const AdminPanel = () => {
                             <h3 className="font-semibold text-gray-800">
                               {message.name}
                             </h3>
-                            <span className={`px-2 py-1 rounded text-xs ${
-                              message.status === 'unread' ? 'bg-red-100 text-red-800' :
-                              message.status === 'read' ? 'bg-yellow-100 text-yellow-800' :
-                              'bg-green-100 text-green-800'
-                            }`}>
+                            <span
+                              className={`px-2 py-1 rounded text-xs ${
+                                message.status === "unread"
+                                  ? "bg-red-100 text-red-800"
+                                  : message.status === "read"
+                                  ? "bg-yellow-100 text-yellow-800"
+                                  : "bg-green-100 text-green-800"
+                              }`}
+                            >
                               {message.status}
                             </span>
                             <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
@@ -751,16 +772,25 @@ const AdminPanel = () => {
                             </span>
                           </div>
                           <div className="space-y-1 text-sm text-gray-600 mb-2">
-                            <p><strong>Email:</strong> {message.email}</p>
-                            <p><strong>Phone:</strong> {message.phone}</p>
-                            <p><strong>Date:</strong> {new Date(message.createdAt).toLocaleDateString()}</p>
+                            <p>
+                              <strong>Email:</strong> {message.email}
+                            </p>
+                            <p>
+                              <strong>Phone:</strong> {message.phone}
+                            </p>
+                            <p>
+                              <strong>Date:</strong>{" "}
+                              {new Date(message.createdAt).toLocaleDateString()}
+                            </p>
                           </div>
                           <p className="text-gray-700">{message.message}</p>
                         </div>
                         <div className="flex space-x-2">
                           <select
                             value={message.status}
-                            onChange={(e) => updateMessageStatus(message._id, e.target.value)}
+                            onChange={(e) =>
+                              updateMessageStatus(message._id, e.target.value)
+                            }
                             className="p-2 border border-gray-300 rounded text-sm"
                           >
                             <option value="unread">Unread</option>

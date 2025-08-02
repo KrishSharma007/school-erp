@@ -1,9 +1,7 @@
 import React, { useState, useEffect, createContext } from "react";
+import { API_BASE_URL, getAuthHeaders, getUploadHeaders } from "./config/api";
 
 const AdminContext = createContext();
-
-// API base URL
-const API_BASE_URL = "http://localhost:5001/api";
 
 export const AdminProvider = ({ children }) => {
   const [galleryImages, setGalleryImages] = useState([]);
@@ -33,14 +31,7 @@ export const AdminProvider = ({ children }) => {
     loadInitialData();
   }, []);
 
-  // Helper function to get auth headers
-  const getAuthHeaders = () => {
-    const token = localStorage.getItem('adminToken');
-    return {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    };
-  };
+
 
   // API Functions
   const fetchGalleryImages = async () => {
@@ -125,12 +116,9 @@ export const AdminProvider = ({ children }) => {
       Object.entries(videoData).forEach(([key, value]) => {
         if (key !== "file") formData.append(key, value);
       });
-      const token = localStorage.getItem('adminToken');
       const response = await fetch(`${API_BASE_URL}/videos`, {
         method: "POST",
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        headers: getUploadHeaders(),
         body: formData,
       });
       if (response.ok) {
@@ -207,12 +195,9 @@ export const AdminProvider = ({ children }) => {
       Object.entries(imageData).forEach(([key, value]) => {
         if (key !== "file") formData.append(key, value);
       });
-      const token = localStorage.getItem('adminToken');
       const response = await fetch(`${API_BASE_URL}/gallery`, {
         method: "POST",
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        headers: getUploadHeaders(),
         body: formData,
       });
       if (response.ok) {
@@ -251,12 +236,9 @@ export const AdminProvider = ({ children }) => {
       Object.entries(imageData).forEach(([key, value]) => {
         if (key !== "file") formData.append(key, value);
       });
-      const token = localStorage.getItem('adminToken');
       const response = await fetch(`${API_BASE_URL}/slideshow`, {
         method: "POST",
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        headers: getUploadHeaders(),
         body: formData,
       });
       if (response.ok) {
@@ -394,7 +376,7 @@ export const AdminProvider = ({ children }) => {
       });
 
       if (response.ok) {
-        const updatedNotice = await response.json();
+        await response.json();
         setNotices((prev) =>
           prev.map((notice) =>
             notice._id === id ? { ...notice, active: !notice.active } : notice

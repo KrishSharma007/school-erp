@@ -1,12 +1,77 @@
-# React + Vite
+# JAI MODERN SCHOOL - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend application for JAI MODERN SR. SEC. SCHOOL DULHERA, built with React and Vite.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Responsive Design**: Modern, mobile-friendly interface
+- **Admin Panel**: Content management system for school administrators
+- **Gallery Management**: Upload and manage school photos
+- **Notice Board**: Publish and manage school notices
+- **Contact Forms**: Student and parent inquiry system
+- **Slideshow**: Dynamic homepage slideshow management
 
-## Expanding the ESLint configuration
+## Technology Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **React 19**: Modern React with hooks
+- **Vite**: Fast build tool and development server
+- **Tailwind CSS**: Utility-first CSS framework
+- **Lucide React**: Beautiful icons
+- **React Router**: Client-side routing
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js >= 16.0.0
+- npm >= 8.0.0
+
+### Installation
+
+```bash
+npm install
+```
+
+### Development
+
+```bash
+npm run dev
+```
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+## Environment Variables
+
+Set up your environment variables for production deployment:
+
+```bash
+VITE_API_BASE_URL=https://your-backend-url.com/api
+```
+
+See `DEPLOYMENT.md` for detailed deployment instructions.
+
+## Project Structure
+
+```
+src/
+├── components/     # Reusable UI components
+├── config/        # Configuration files
+├── context/       # React context providers
+├── hooks/         # Custom React hooks
+├── services/      # API and external services
+└── pages/         # Main application pages
+```
+
+## Deployment
+
+This project is configured for deployment on Vercel. See `vercel-env-setup.md` for quick setup instructions.
